@@ -1,0 +1,121 @@
+def user_assistance(array):      # Вывод манула по команде "help"
+
+    print("Мануал к игре\n")
+    print("Для выполнения хода введите 2 координаты:")
+    print("Первая - столбец")
+    print("Вторая - строка.")
+    print("Пример ввода:")
+    print("Ходит крестик")
+    print("2 1")
+
+def print_table(array, size=3):     #  Отрисовка таблицы
+    print("\u250F" + ("\u2501" * 3 + "\u2533") * size + "\u2501" * 3 + "\u2513")
+    print("\u2503   ", end="")
+    [print(f"\u2503 {i} ", end="") for i in range(size)]
+    print("\u2503")
+    print("\u2523" + ("\u2501" * 3 + "\u254B") * size + "\u2501" * 3 + "\u252B")
+    for row in range(size):
+        print(f"\u2503 {row} \u2503", end="")
+        for column in range(size):
+            print(f" {array[row][column] or ' '} \u2503", end="")
+        print()
+        [
+            print("\u2517" + ("\u2501" * 3 + "\u253B") * size + "\u2501" * 3 + "\u251B")
+        ] if row == size - 1 else print("\u2523" + ("\u2501" * 3 + "\u254B") * size + "\u2501" * 3 + "\u252B")
+
+
+
+def check_input_data(xy_cords, array, size=3):      # Проверка данных пользователя
+    if len(xy_cords) != 2:
+        print("Введите 2 координаты!")
+        return False
+    x_c, y_c = xy_cords
+    if not (x_c.isdigit() and y_c.isdigit()):
+        print("Введите 2 целых числа!")
+        return False
+    elif not (0 <= int(x_c) <= size - 1 and 0 <= int(y_c) <= size - 1):
+        print("Введите 2 правильных координаты!")
+        return False
+    elif array[int(y_c)][int(x_c)] != "":
+        print("Клетка занята!")
+        return False
+    return True
+
+def is_win(array, size=3):      # Проверка победителей
+    win_t, win_t1, win_t2, win_t3 = [], [], [], [[], []]
+    for row in range(size):
+        win_t1.append([])
+        win_t2.append([])
+        for column in range(size):
+            win_t1[row].append(tuple([column, row]))
+            win_t2[row].append(tuple([row, column]))
+            if row == column:
+                win_t3[0].append(tuple([row, column]))
+            if row + column == size - 1:
+                win_t3[1].append(tuple([row, column]))
+    win_t.extend(win_t1)
+    win_t.extend(win_t2)
+    win_t.extend(win_t3)
+    for win_cords in win_t:
+        check = []
+        for cord in win_cords:
+            check.append(array[cord[0]][cord[1]])
+            if check == ["X"] * size:
+              #  return "Победил крестик! Поздравляем! :D"
+                print ("Победил крестик! Поздравляем!")
+                break
+            elif check == ["O"] * size:
+               # return "Победил нолик! Поздравляем! :D"
+                print("Победил нолик! Поздравляем!")
+                break
+    return False
+
+def main(array, size, num):       # Главный игровой цикл
+    while True:
+        print_table(array, size)
+
+        if is_win(array, size):
+            print(is_win(array, size))
+            break
+        elif num == size ** 2:
+            print("Ничья.")
+            break
+
+        if num % 2 == 0:
+            print("Ходит крестик")
+        else:
+            print("Ходит нолик")
+
+        string = None
+        while not string:
+            string = input()
+
+        if string == "help":
+            user_assistance(user_assistance_table)
+            continue
+        elif string == "exit":
+            print("Игра окончена")
+            break
+
+        cords = string.split()
+
+        if check_input_data(cords, array, size):
+            x, y = cords
+            if num % 2 == 0:
+                array[int(y)][int(x)] = "X"
+            else:
+                array[int(y)][int(x)] = "O"
+            num += 1
+
+table_s = 3                                       # Размер таблицы
+table = [[""] * table_s for _ in range(table_s)]  # Массив (таблица) заданного размера
+user_assistance_table = [                         # Создаем таблицу используемую в функции user_assistance()
+    [""] * 3,
+    [""] * 3,
+    ["", "X", ""]
+]
+count = 0                                                # счетчик ходов
+
+print('''Играем в Крестики-нолики. Введите "exit" - для выхода из игры ''')
+
+main(table, table_s, count)      # Команда запуска игры
