@@ -1,3 +1,5 @@
+# Морской бой ( Задание С 2.5 )
+
 from random import randint
 
 class Dots:
@@ -12,19 +14,6 @@ class Dots:
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
-class Boardexception(Exception):
-    pass
-
-class BoardOutOfRange(Boardexception):
-    def __str__(self):
-        return("Выстрел  за пределами игрового поля! ")
-
-class BoardUsedDot(Boardexception):
-    def __str__(self):
-        return("Попытка повторного выстрела в эту точку!")
-
-class BoardWrongShipPlanting(Boardexception):
-    pass
 
 class Ship:
 
@@ -167,6 +156,19 @@ class Human(Player):
             x, y = int(x), int(y)
             return Dots(x-1, y-1)
 
+class Boardexception(Exception):
+    pass
+
+class BoardOutOfRange(Boardexception):
+    def __str__(self):
+        return("Выстрел  за пределами игрового поля! ")
+
+class BoardUsedDot(Boardexception):
+    def __str__(self):
+        return("Попытка повторного выстрела в эту точку!")
+
+class BoardWrongShipPlanting(Boardexception):
+    pass
 
 
 class Game():
@@ -235,7 +237,7 @@ class Game():
                 repeat = self.hu.move()
             else:
                 print("-" * 10)
-                print("Компьютер, твой ход!")
+                print("Ходит компьютер!")
                 repeat = self.ai.move()
 
             if repeat:
@@ -248,13 +250,15 @@ class Game():
 
             if self.hu.board.count == 7:
                 print("-" * 10)
-                print("Человек, победил!")
+                print("Человек победил!")
                 break
 
             num += 1
 
     def start(self):
+
         self.greet()
+
         self.loop()
 
 
