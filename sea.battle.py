@@ -14,7 +14,6 @@ class Dots:
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
-
 class Ship:
 
     def __init__(self, bow, l, o):
@@ -170,7 +169,6 @@ class BoardUsedDot(Boardexception):
 class BoardWrongShipPlanting(Boardexception):
     pass
 
-
 class Game():
 
     def __init__(self, size = 6):
@@ -209,8 +207,6 @@ class Game():
         board.begin()
         return board
 
-
-
     def greet(self):
         print("-------------------")
         print("    Морской бой    ")
@@ -218,9 +214,6 @@ class Game():
         print(" формат ввода: x y ")
         print(" x - номер строки  ")
         print(" y - номер столбца ")
-
-
-
 
     def loop(self):
         num = 0
@@ -239,26 +232,21 @@ class Game():
                 print("-" * 10)
                 print("Ходит компьютер!")
                 repeat = self.ai.move()
-
             if repeat:
                 num -= 1
-
             if self.ai.board.count == 7:
                 print("-" * 10)
                 print("Победил компьютер!")
                 break
-
             if self.hu.board.count == 7:
                 print("-" * 10)
                 print("Человек победил!")
                 break
-
             num += 1
 
     def start(self):
 
         self.greet()
-
         self.loop()
 
 
